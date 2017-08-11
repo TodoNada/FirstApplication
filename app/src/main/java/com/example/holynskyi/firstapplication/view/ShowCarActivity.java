@@ -88,6 +88,7 @@ public class ShowCarActivity extends AppCompatActivity {
     private void initViews(){
         toolbar = (Toolbar)findViewById(R.id.toolbarShowCars);
         // setSupportActionBar(toolbar);
+        
         btnBack = (ImageView)findViewById(R.id.ivBack);
         btnAddCar = (ImageView)findViewById(R.id.ivAdd);
 
