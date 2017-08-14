@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.holynskyi.firstapplication.R;
 import com.example.holynskyi.firstapplication.db.LocalDbStorage;
 import com.example.holynskyi.firstapplication.models.Car;
+import com.example.holynskyi.firstapplication.utils.UsersPreferences;
 
 /**
  * Created by holynskyi on 09.08.17.
