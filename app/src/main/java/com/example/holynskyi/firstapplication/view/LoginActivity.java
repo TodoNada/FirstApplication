@@ -43,6 +43,21 @@ public class LoginActivity extends AppCompatActivity {
 
     private void initListeners() {
 
+        //for autocomplete text view
+        usersPreferences = UsersPreferences.getInstance(this, "USERSNAMES", Context.MODE_PRIVATE);
+
+        setOfUsersNames = new HashSet<>(usersPreferences.getStringSet());
+
+        if ((setOfUsersNames != null) && (setOfUsersNames.size() > 0)) {
+            Log.d("SHARED PREFS", "Set size is " + setOfUsersNames.size());
+            String[] strings = setOfUsersNames.toArray(new String[setOfUsersNames.size()]);
+            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
+            etName.setAdapter(stringArrayAdapter);
+        } else {
+            Log.d("SHARED PREFS", "Set size is 0 or it is NULL");
+        }
+
+
         // sign in Listener
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,25 +113,9 @@ public class LoginActivity extends AppCompatActivity {
         btnSignIn = (Button) findViewById(R.id.buttonSignIn);
         btnRegister = (Button) findViewById(R.id.buttonRegister);
 
-        localDbStorage = new LocalDbStorage(this);
-
-        usersPreferences = UsersPreferences.getInstance(this, "USERSNAMES", Context.MODE_PRIVATE);
-
-        setOfUsersNames = new HashSet<>(usersPreferences.getStringSet());
-
-        if ((setOfUsersNames != null) && (setOfUsersNames.size() > 0)) {
-            Log.d("SHARED PREFS", "Set size is " + setOfUsersNames.size());
-            String[] strings = setOfUsersNames.toArray(new String[setOfUsersNames.size()]);
-            ArrayAdapter<String> stringArrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, strings);
-            etName.setAdapter(stringArrayAdapter);
-        } else {
-            Log.d("SHARED PREFS", "Set size is 0 or it is NULL");
-        }
-
     }
 
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
@@ -126,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if (requestCode == REQUEST_CODE_USER_REGISTER) {
             if (resultCode == RESULT_CODE_USER_REGISTERED) {
+                initListeners();
                 String userName = data.getStringExtra("USER_NAME");
                 etName.setText(userName);
             }
@@ -136,6 +136,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        localDbStorage = new LocalDbStorage(this);
+
         initViews();
     }
 

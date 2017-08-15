@@ -10,8 +10,8 @@ import android.database.sqlite.SQLiteDatabase;
  */
 
 public class DBHelper extends SQLiteOpenHelper {
-    static final int DB_VERSION = 42;
-    static final String DB_NAME = "user_cars.db";
+    static final int DB_VERSION = 43;
+    static final String DB_NAME = "user_cars_houses.db";
 
     public DBHelper(Context context)
     {
@@ -20,7 +20,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // create notes table
+        // create user table
         db.execSQL("CREATE TABLE "+ DatabaseStructure.tables.users+" (" +
                 DatabaseStructure.columns.user.id+" INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DatabaseStructure.columns.user.userName+" TEXT, " +
@@ -28,13 +28,23 @@ public class DBHelper extends SQLiteOpenHelper {
                 DatabaseStructure.columns.user.userCars+" INTEGER "+
                 ")");
 
-        // create reminders table
+        // create cars table
         db.execSQL("CREATE TABLE "+ DatabaseStructure.tables.cars+" (" +
                 DatabaseStructure.columns.car.id+" INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DatabaseStructure.columns.car.title1+" TEXT, "+
                 DatabaseStructure.columns.car.title2+" TEXT, "+
                 DatabaseStructure.columns.car.someData+" INTEGER, " +
                 DatabaseStructure.columns.car.userId+" INTEGER" +
+                ")");
+
+        // create houses table
+        db.execSQL("CREATE TABLE "+ DatabaseStructure.tables.houses+" (" +
+                DatabaseStructure.columns.house.id+" INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                DatabaseStructure.columns.house.city+" TEXT, "+
+                DatabaseStructure.columns.house.adress+" TEXT, "+
+                DatabaseStructure.columns.house.other+" TEXT, "+
+                DatabaseStructure.columns.house.someData+" INTEGER, " +
+                DatabaseStructure.columns.house.userId+" INTEGER" +
                 ")");
 
 

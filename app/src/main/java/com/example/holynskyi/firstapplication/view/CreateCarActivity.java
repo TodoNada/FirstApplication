@@ -41,11 +41,6 @@ public class CreateCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_car);
 
-        //take user id
-        Intent intent = getIntent();
-        userID = Long.parseLong(intent.getStringExtra("USER_ID"));
-
-        Log.d("CREATE CAR", "intent is here, UserId=" + userID);
         //inititalize local db
         localDbStorage = new LocalDbStorage(this);
 
@@ -56,6 +51,13 @@ public class CreateCarActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        //take user id
+        Intent intent = getIntent();
+        userID = Long.parseLong(intent.getStringExtra("USER_ID"));
+
+        Log.d("CREATE CAR", "intent is here, UserId=" + userID);
+
         initListeners();
     }
 
@@ -105,6 +107,7 @@ public class CreateCarActivity extends AppCompatActivity {
         btnRegisterCarOk = (Button) findViewById(R.id.buttonCreateCar);
         ivBackView = (ImageView) findViewById(R.id.ivBackFromCarAddActivity);
         toolbarAddCar = (Toolbar) findViewById(R.id.toolbarAddCar);
+        //setSupportActionBar(toolbarAddCar);
     }
 
 

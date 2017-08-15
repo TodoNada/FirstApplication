@@ -14,7 +14,7 @@ import java.util.List;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.example.holynskyi.firstapplication.R;
-import com.example.holynskyi.firstapplication.dialogs.OnItemSelectedListener;
+import com.example.holynskyi.firstapplication.dialogs.OnCarItemSelectedListener;
 import com.example.holynskyi.firstapplication.models.Car;
 
 /**
@@ -23,16 +23,16 @@ import com.example.holynskyi.firstapplication.models.Car;
 
 public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
-    protected List<Car> carList;       // The list of reminders that will be displayed
+    protected List<Car> carList;       // The list of cars that will be displayed
 
-    private OnItemSelectedListener onItemSelectedListener;
+    private OnCarItemSelectedListener onItemSelectedListener;
 
 
     public CarAdapter(List<Car> carList) {
         this.carList = carList;
     }
 
-    public void setOnItemSelectedListener(OnItemSelectedListener onItemSelectedListener) {
+    public void setOnCarItemSelectedListener(OnCarItemSelectedListener onItemSelectedListener) {
         this.onItemSelectedListener = onItemSelectedListener;
     }
 
@@ -54,7 +54,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             ivDeleteItem = (ImageView) itemView.findViewById(R.id.imageViewDeleteItem);
         }
     }
-
 
     @Override
     public void onBindViewHolder(CarViewHolder holder, final int position) {
@@ -100,12 +99,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             public void onClick(View view) {
                 Log.d("ADAPTER", "clicked position " + position + " with id " + id);
                 // listener to delete
-                onItemSelectedListener.itemSelected(position, id);
+                onItemSelectedListener.itemCarSelected(position, id);
 
             }
         });
     }
-
 
     @Override
     public CarViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -117,6 +115,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     @Override
     public int getItemCount() {
+        if (carList == null) return 0;
         return carList.size();
     }
 

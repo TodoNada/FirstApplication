@@ -8,6 +8,7 @@ public final class DatabaseStructure {
     public static final class tables {
         public static final String users = "users";
         public static final String cars = "cars";
+        public static final String houses = "houses";
     }
 
     public static final class columns {
@@ -27,5 +28,15 @@ public final class DatabaseStructure {
             public static final String someData = "data";
             public static final String userId = "userId";
         }
+
+        public static final class house {
+            public static final String id = "id";
+            public static final String city = "city";
+            public static final String adress = "adress";
+            public static final String other = "other";
+            public static final String someData = "data";
+            public static final String userId = "userId";
+        }
+
     }
 }

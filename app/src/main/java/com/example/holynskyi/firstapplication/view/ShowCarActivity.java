@@ -16,7 +16,7 @@ import com.example.holynskyi.firstapplication.R;
 import com.example.holynskyi.firstapplication.adapters.CarAdapter;
 import com.example.holynskyi.firstapplication.db.DatabaseStructure;
 import com.example.holynskyi.firstapplication.db.LocalDbStorage;
-import com.example.holynskyi.firstapplication.dialogs.OnItemSelectedListener;
+import com.example.holynskyi.firstapplication.dialogs.OnCarItemSelectedListener;
 import com.example.holynskyi.firstapplication.models.Car;
 import com.example.holynskyi.firstapplication.models.Cars;
 
@@ -27,7 +27,7 @@ import static com.example.holynskyi.firstapplication.basic.Codes.RESULT_CODE_CAR
  * Created by holynskyi on 09.08.17.
  */
 
-public class ShowCarActivity extends AppCompatActivity implements OnItemSelectedListener {
+public class ShowCarActivity extends AppCompatActivity implements OnCarItemSelectedListener {
 
 
     private LocalDbStorage localDbStorage;
@@ -55,17 +55,12 @@ public class ShowCarActivity extends AppCompatActivity implements OnItemSelected
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_cars);
 
+        Log.d("CAR SHOW","On resume");
+
         //inititalize local db
         localDbStorage = new LocalDbStorage(this);
 
-        Intent intent = getIntent();
-        userId = Long.parseLong(intent.getStringExtra("USER_ID"));
-
-        Log.d("CARS", "USER_ID = " + userId);
         cars = new Cars();
-        if (!getCarsFromDb(userId, cars)) return;
-
-        Log.d("CAR LIST ACTIVITY", "size=" + cars.size());
 
         initViews();
 
@@ -74,6 +69,43 @@ public class ShowCarActivity extends AppCompatActivity implements OnItemSelected
     @Override
     protected void onResume() {
         super.onResume();
+
+        Log.d("CAR SHOW","On resume");
+
+        Intent intent = getIntent();
+        userId = Long.parseLong(intent.getStringExtra("USER_ID"));
+
+        Log.d("CARS", "USER_ID = " + userId);
+
+        cars.clear();
+
+        if (!getCarsFromDb(userId, cars)) return;
+
+        Log.d("CAR LIST ACTIVITY", "size=" + cars.size());
+
+        initListeners();
+
+    }
+
+    private void initViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbarShowCars);
+        //setSupportActionBar(toolbar);
+
+        btnBack = (ImageView) findViewById(R.id.ivBack);
+        btnAddCar = (ImageView) findViewById(R.id.ivAdd);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMain);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+
+        recyclerView.setLayoutManager(llm);
+        // recyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDrawable(R.drawable.divider)));
+        //   recyclerView.setItemAnimator(new FadeInLeftAnimator());
+        carAdapter = new CarAdapter(cars);
+        carAdapter.setOnCarItemSelectedListener(this);
+        recyclerView.setAdapter(carAdapter);
+    }
+
+    private void initListeners() {
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -91,23 +123,6 @@ public class ShowCarActivity extends AppCompatActivity implements OnItemSelected
         });
     }
 
-    private void initViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbarShowCars);
-        // setSupportActionBar(toolbar);
-
-        btnBack = (ImageView) findViewById(R.id.ivBack);
-        btnAddCar = (ImageView) findViewById(R.id.ivAdd);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewMain);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-
-        recyclerView.setLayoutManager(llm);
-        // recyclerView.addItemDecoration(new DividerItemDecoration(this, getResources().getDrawable(R.drawable.divider)));
-        //   recyclerView.setItemAnimator(new FadeInLeftAnimator());
-        carAdapter = new CarAdapter(cars);
-        carAdapter.setOnItemSelectedListener(this);
-        recyclerView.setAdapter(carAdapter);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -131,7 +146,7 @@ public class ShowCarActivity extends AppCompatActivity implements OnItemSelected
 
 
     @Override
-    public void itemSelected(final int position, final long id) {
+    public void itemCarSelected(final int position, final long id) {
         Log.d("Interface of deleting", " go!");
         AlertDialog ad = new AlertDialog.Builder(this).create();
         ad.setTitle("Alert");
@@ -175,16 +190,6 @@ public class ShowCarActivity extends AppCompatActivity implements OnItemSelected
         });
 
         ad.show();
-
-                /*
-                ad.setOnCancelListener(new OnCancelListener() {
-                    public void onCancel(DialogInterface dialog) {
-                        Toast.makeText(context, "Вы ничего не выбрали",
-                                Toast.LENGTH_LONG).show();
-                    }
-                });
-                */
-
 
     }
 }

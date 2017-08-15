@@ -34,6 +34,10 @@ public class RegisterActivity extends AppCompatActivity {
         etNameRegister = (EditText) findViewById(R.id.editTextNameRegister);
         etPasswordRegister = (EditText) findViewById(R.id.editTextPasswordRegister);
         btnRegisterOk = (Button)findViewById(R.id.buttonRegisterOk);
+    }
+
+
+    private void initListeners() {
         btnRegisterOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -58,7 +62,7 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser.setCars(0);
                 if (!registerUser.insert()) {
                     Log.d("REGISTERING","user not registered");
-                 //   Toast.makeText(getApplicationContext(),"User was not created",Toast.LENGTH_LONG).show();
+                    //   Toast.makeText(getApplicationContext(),"User was not created",Toast.LENGTH_LONG).show();
                     localDbStorage.close();
                     return;
                 }
@@ -73,7 +77,6 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,5 +87,12 @@ public class RegisterActivity extends AppCompatActivity {
 
         initViews();
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        initListeners();
     }
 }
