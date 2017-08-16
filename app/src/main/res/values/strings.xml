@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">FirstApplication</string>
+    <string name="tab1">Cars</string>
+    <string name="tab2">Houses</string>
 </resources>

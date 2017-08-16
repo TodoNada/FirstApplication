@@ -25,15 +25,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
 
     protected List<Car> carList;       // The list of cars that will be displayed
 
-    private OnCarItemSelectedListener onItemSelectedListener;
+    private OnCarItemSelectedListener onCarItemSelectedListener;
 
 
     public CarAdapter(List<Car> carList) {
         this.carList = carList;
     }
 
-    public void setOnCarItemSelectedListener(OnCarItemSelectedListener onItemSelectedListener) {
-        this.onItemSelectedListener = onItemSelectedListener;
+    public void setOnCarItemSelectedListener(OnCarItemSelectedListener onCarItemSelectedListener) {
+        this.onCarItemSelectedListener = onCarItemSelectedListener;
     }
 
     public static class CarViewHolder extends RecyclerView.ViewHolder {
@@ -99,7 +99,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
             public void onClick(View view) {
                 Log.d("ADAPTER", "clicked position " + position + " with id " + id);
                 // listener to delete
-                onItemSelectedListener.itemCarSelected(position, id);
+                onCarItemSelectedListener.itemCarSelected(position, id);
 
             }
         });
