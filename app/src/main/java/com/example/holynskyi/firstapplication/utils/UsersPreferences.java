@@ -24,7 +24,7 @@ public class UsersPreferences {
 
     public static final UsersPreferences getInstance(final Context context, final String fileName, int mode) {
         if (usersPreferences == null) {
-            usersPreferences = new UsersPreferences(context,fileName,mode);
+            usersPreferences = new UsersPreferences(context, fileName, mode);
         }
         return usersPreferences;
     }
@@ -33,7 +33,7 @@ public class UsersPreferences {
         this.context = context;
         this.fileName = fileName;
         this.mode = mode;
-        sharedPreferences =  this.context.getSharedPreferences(this.fileName,this.mode);
+        sharedPreferences = this.context.getSharedPreferences(this.fileName, this.mode);
         updateInnerSet();
     }
 
@@ -51,19 +51,17 @@ public class UsersPreferences {
 
 
     /**
-     *
      * @return Set<String>, that contains user names in preferences field, named "usersNamesField"
-     * @return If there are no such a data, then return null
      */
     public final Set<String> getStringSet() {
         return set;
     }
 
     public boolean putUserNameIntoPreferences(String userName) {
-       if (userName==null) return false;
-        Log.d("putting string ",userName);
+        if (userName == null) return false;
+        Log.d("putting string ", userName);
         set.add(userName);
-        if (!sharedPreferences.edit().putStringSet(usersNamesField,set).commit()) return false;
+        if (!sharedPreferences.edit().putStringSet(usersNamesField, set).commit()) return false;
         updateInnerSet();
         return true;
     }

@@ -1,33 +1,18 @@
 package com.example.holynskyi.firstapplication.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
 
 import com.example.holynskyi.firstapplication.adapters.ViewPagerAdapter;
 import com.example.holynskyi.firstapplication.R;
-import com.example.holynskyi.firstapplication.adapters.CarAdapter;
-import com.example.holynskyi.firstapplication.adapters.HouseAdapter;
-import com.example.holynskyi.firstapplication.db.DatabaseStructure;
 import com.example.holynskyi.firstapplication.db.LocalDbStorage;
-import com.example.holynskyi.firstapplication.dialogs.OnCarItemSelectedListener;
-import com.example.holynskyi.firstapplication.dialogs.OnHouseItemSelectedListener;
-import com.example.holynskyi.firstapplication.models.Car;
-import com.example.holynskyi.firstapplication.models.Cars;
-import com.example.holynskyi.firstapplication.models.House;
-import com.example.holynskyi.firstapplication.models.Houses;
 
 import static com.example.holynskyi.firstapplication.basic.Codes.REQUEST_CODE_CAR_REGISTER;
 import static com.example.holynskyi.firstapplication.basic.Codes.REQUEST_CODE_HOUSE_REGISTER;
@@ -58,16 +43,12 @@ public class ShowCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_cars);
 
-        Log.d("CAR SHOW","On resume");
-
         //inititalize local db
         localDbStorage = new LocalDbStorage(this);
 
-
+        // take user Id from intent
         Intent intent = getIntent();
         userId = Long.parseLong(intent.getStringExtra("USER_ID"));
-
-        Log.d("LIST ACTIVITY", "USER_ID = " + userId);
 
         initToolBarAndItsButtons();
 
@@ -143,16 +124,14 @@ public class ShowCarActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (data == null) {
-            Log.d("LIST ACTIVITY", "result data is NULL");
             return;
         }
 
-        Log.d("RESULT IS HERE", "REQUEST = " + requestCode + " RESULT =" + resultCode);
-
+        // request from CreateCarActivity
         if (requestCode == REQUEST_CODE_CAR_REGISTER) {
             if (resultCode == RESULT_CODE_CAR_REGISTERED) {
                 userId = Long.parseLong(data.getStringExtra("USER_ID_NEW_CAR"));
-                // Todo: Acthung! tab id must be only car
+                // Todo: Acthung! tab id must be only car, either CastException may be :(
                 //refresh CarFragment
                 CarsFragment carFragment = (CarsFragment) viewPagerAdapter.getItem(0);
                 if (!carFragment.notifyDataWasRefresh(userId)) {
@@ -163,10 +142,11 @@ public class ShowCarActivity extends AppCompatActivity {
             }
         }
 
+        // request from CreateHouseActivity
         if (requestCode == REQUEST_CODE_HOUSE_REGISTER) {
             if (resultCode == RESULT_CODE_HOUSE_REGISTERED) {
                 userId = Long.parseLong(data.getStringExtra("USER_ID_NEW_HOUSE"));
-                // Todo: Acthung! tab id must be only house
+                // Todo: Acthung! tab id must be only house, either CastException may be :(
 
                 HousesFragment housesFragment = (HousesFragment) viewPagerAdapter.getItem(1);
                 if (!housesFragment.notifyDataWasRefresh(userId)) {
@@ -179,13 +159,6 @@ public class ShowCarActivity extends AppCompatActivity {
 
 
     }
-
-
-
-
-
-
-
 
 
 }

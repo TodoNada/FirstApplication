@@ -33,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void initViews() {
         etNameRegister = (EditText) findViewById(R.id.editTextNameRegister);
         etPasswordRegister = (EditText) findViewById(R.id.editTextPasswordRegister);
-        btnRegisterOk = (Button)findViewById(R.id.buttonRegisterOk);
+        btnRegisterOk = (Button) findViewById(R.id.buttonRegisterOk);
     }
 
 
@@ -43,15 +43,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //if user name or password are empty, return
-                if ((etNameRegister.getText().toString().isEmpty()) || (etPasswordRegister.getText().toString().isEmpty())) return;
+                if ((etNameRegister.getText().toString().isEmpty()) || (etPasswordRegister.getText().toString().isEmpty()))
+                    return;
 
-
+                //if user with same name exists, then return
                 localDbStorage.reopen();
                 Users users = new Users(localDbStorage.getDb());
-                if (users.loadFromDb(DatabaseStructure.columns.user.userName+" = ?",new String[] {""+etNameRegister.getText().toString()},0)) {
-                    Log.d("User","already exists in DB");
+                if (users.loadFromDb(DatabaseStructure.columns.user.userName + " = ?", new String[]{"" + etNameRegister.getText().toString()}, 0)) {
                     localDbStorage.close();
-                    Toast.makeText(RegisterActivity.this,"User "+etNameRegister.getText().toString()+" already exist, please take other name!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this, "User " + etNameRegister.getText().toString() + " already exist, please take other name!", Toast.LENGTH_LONG).show();
                     return;
                 }
                 //push new user into DB
@@ -61,16 +61,13 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser.setPassword(etPasswordRegister.getText().toString());
                 registerUser.setCars(0);
                 if (!registerUser.insert()) {
-                    Log.d("REGISTERING","user not registered");
-                    //   Toast.makeText(getApplicationContext(),"User was not created",Toast.LENGTH_LONG).show();
                     localDbStorage.close();
                     return;
                 }
-                Log.d("REGISTERING","user was registered");
                 //set result
                 Intent intent = new Intent();
-                intent.putExtra("USER_NAME",etNameRegister.getText().toString());
-                setResult(RESULT_CODE_USER_REGISTERED,intent);
+                intent.putExtra("USER_NAME", etNameRegister.getText().toString());
+                setResult(RESULT_CODE_USER_REGISTERED, intent);
                 finish();
             }
         });

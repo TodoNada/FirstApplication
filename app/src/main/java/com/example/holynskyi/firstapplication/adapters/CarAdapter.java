@@ -97,7 +97,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
         holder.ivDeleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("ADAPTER", "clicked position " + position + " with id " + id);
                 // listener to delete
                 onCarItemSelectedListener.itemCarSelected(position, id);
 
@@ -124,8 +123,6 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.CarViewHolder> {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
     }
-
-
 
 
 }

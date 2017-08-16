@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.holynskyi.firstapplication.R;
 import com.example.holynskyi.firstapplication.adapters.HouseAdapter;
 import com.example.holynskyi.firstapplication.db.DatabaseStructure;
@@ -65,11 +66,9 @@ public class HousesFragment extends Fragment implements OnHouseItemSelectedListe
         houses.clear();
 
         if (getHousesFromDb(userId, houses)) {
-            Log.d("FRAGMENT HOUSE", "houses size=" + houses.size());
             houseAdapter = new HouseAdapter(houses);
-            if (houseAdapter !=null) {
-                Log.d("FRAGMENT HOUSE","TRY to set adapter");
-                LinearLayoutManager llmHouse =  new LinearLayoutManager(getContext());
+            if (houseAdapter != null) {
+                LinearLayoutManager llmHouse = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(llmHouse);
                 recyclerView.setAdapter(houseAdapter);
                 houseAdapter.setOnHouseItemSelectedListener(this);
@@ -104,7 +103,6 @@ public class HousesFragment extends Fragment implements OnHouseItemSelectedListe
 
     @Override
     public void itemHouseSelected(final int position, final long id) {
-        Log.d("Interface of deleting", " go!");
         AlertDialog ad = new AlertDialog.Builder(getActivity()).create();
         ad.setTitle("Alert");
         ad.setMessage("Delete this house?");
@@ -112,21 +110,17 @@ public class HousesFragment extends Fragment implements OnHouseItemSelectedListe
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 House house = (House) houses.get(position);
-                Log.d("HOUSE to delete", "id = " + house.getId());
                 localDbStorage.reopen();
                 house.setDb(localDbStorage.getDb());
                 if (!house.remove()) {
-                    Log.d("HOUSE LIST", "unable to delete house from db");
                     localDbStorage.close();
                     return;
                 }
                 localDbStorage.close();
                 houses.clear();
                 if (!getHousesFromDb(userId, houses)) {
-                    Log.d("HOUSE LIST", "unable to upload houses from db");
                     return;
                 }
-                Log.d("Interface of del houses", "was deleted");
                 houseAdapter.notifyDataSetChanged();
             }
         });

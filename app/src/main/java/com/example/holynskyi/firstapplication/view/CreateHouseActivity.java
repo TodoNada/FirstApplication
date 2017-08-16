@@ -53,9 +53,6 @@ public class CreateHouseActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userID = Long.parseLong(intent.getStringExtra("USER_ID"));
 
-        Log.d("CREATE HOUSE", "intent is here, UserId=" + userID);
-
-
         initListeners();
     }
 
@@ -76,12 +73,10 @@ public class CreateHouseActivity extends AppCompatActivity {
                 registerHouse.setData(18);
                 registerHouse.setUserId(userID);
                 if (!registerHouse.insert()) {
-                    Log.d("HOUSE CREATION", "HOUSE was not created");
                     localDbStorage.close();
                     return;
                 }
                 localDbStorage.close();
-                Log.d("HOUSE CREATION", "HOUSE was created");
 
                 //set result and go back
                 Intent intent = new Intent();
@@ -108,7 +103,6 @@ public class CreateHouseActivity extends AppCompatActivity {
         btnRegisterHouseOk = (Button) findViewById(R.id.buttonCreateHouse);
         ivBackView = (ImageView) findViewById(R.id.ivBackFromHouseAddActivity);
         toolbarAddHouse = (Toolbar) findViewById(R.id.toolbarAddHouse);
-        //setSupportActionBar(toolbarAddHouse);
     }
 
 

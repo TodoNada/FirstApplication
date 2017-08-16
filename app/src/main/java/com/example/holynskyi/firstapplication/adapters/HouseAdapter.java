@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import com.example.holynskyi.firstapplication.dialogs.OnCarItemSelectedListener;
 import com.example.holynskyi.firstapplication.dialogs.OnHouseItemSelectedListener;
 import com.example.holynskyi.firstapplication.models.House;
+
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -112,7 +113,6 @@ public class HouseAdapter extends RecyclerView.Adapter<HouseAdapter.HouseViewHol
         holder.ivDeleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("ADAPTER", "clicked position " + position + " with id " + id);
                 // listener to delete
                 onHouseItemSelectedListener.itemHouseSelected(position, id);
 

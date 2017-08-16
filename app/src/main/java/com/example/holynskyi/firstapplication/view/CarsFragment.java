@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.holynskyi.firstapplication.R;
 import com.example.holynskyi.firstapplication.adapters.CarAdapter;
 import com.example.holynskyi.firstapplication.db.DatabaseStructure;
@@ -63,11 +64,9 @@ public class CarsFragment extends Fragment implements OnCarItemSelectedListener 
         //inititalize local db
         localDbStorage = new LocalDbStorage(getContext());
 
-        if (getCarsFromDb(userId,cars)) {
-            Log.d("FRAGMENT CAR", "cars size=" + cars.size());
+        if (getCarsFromDb(userId, cars)) {
             carAdapter = new CarAdapter(cars);
-            if (carAdapter !=null) {
-                Log.d("FRAGMENT CAR","TRY to set adapter");
+            if (carAdapter != null) {
                 LinearLayoutManager llm = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(llm);
                 recyclerView.setAdapter(carAdapter);
@@ -103,7 +102,6 @@ public class CarsFragment extends Fragment implements OnCarItemSelectedListener 
 
     @Override
     public void itemCarSelected(final int position, final long id) {
-        Log.d("Interface of deleting", " go!");
         AlertDialog ad = new AlertDialog.Builder(getActivity()).create();
         ad.setTitle("Alert");
         ad.setMessage("Delete this car?");
@@ -111,21 +109,17 @@ public class CarsFragment extends Fragment implements OnCarItemSelectedListener 
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Car car = (Car) cars.get(position);
-                Log.d("CAR to delete", "id = " + car.getId());
                 localDbStorage.reopen();
                 car.setDb(localDbStorage.getDb());
                 if (!car.remove()) {
-                    Log.d("CAR LIST", "unable to delete car from db");
                     localDbStorage.close();
                     return;
                 }
                 localDbStorage.close();
                 cars.clear();
                 if (!getCarsFromDb(userId, cars)) {
-                    Log.d("CAR LIST", "unable to upload cars from db");
                     return;
                 }
-                Log.d("Interface of deleting", "was deleted");
                 carAdapter.notifyDataSetChanged();
             }
         });

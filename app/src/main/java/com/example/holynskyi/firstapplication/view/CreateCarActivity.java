@@ -77,12 +77,10 @@ public class CreateCarActivity extends AppCompatActivity {
                 registerCar.setData(18);
                 registerCar.setUserId(userID);
                 if (!registerCar.insert()) {
-                    Log.d("CAR CREATION", "Car was not created");
                     localDbStorage.close();
                     return;
                 }
                 localDbStorage.close();
-                Log.d("CAR CREATION", "Car was created");
 
                 //set result and go back
                 Intent intent = new Intent();
@@ -107,7 +105,6 @@ public class CreateCarActivity extends AppCompatActivity {
         btnRegisterCarOk = (Button) findViewById(R.id.buttonCreateCar);
         ivBackView = (ImageView) findViewById(R.id.ivBackFromCarAddActivity);
         toolbarAddCar = (Toolbar) findViewById(R.id.toolbarAddCar);
-        //setSupportActionBar(toolbarAddCar);
     }
 
 
